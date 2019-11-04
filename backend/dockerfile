@@ -1,0 +1,18 @@
+FROM node:10.16-alpine
+
+ENV PATH_APP /home/app/
+ENV NAME_APP bot_binance_api
+WORKDIR $PATH_APP
+
+COPY . .
+
+RUN if [ ! -e $PATH_APP$NAME_APP/app.js ]; then npx express-generator $NAME_APP ; fi
+
+WORKDIR $PATH_APP$NAME_APP/
+
+RUN npm install
+#RUN if [ -e $PATH_APP$NAME_APP/package.json ]; then npm start ; fi
+
+EXPOSE 3000
+CMD [ "npm", "start"]
+

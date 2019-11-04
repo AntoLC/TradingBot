@@ -1,0 +1,16 @@
+FROM node:10.16-alpine
+
+#RUN apk add git
+#RUN apk add openssh
+
+ENV PATH_APP /home/app/
+ENV NAME_APP bot_binance_frontend
+ENV FULL_PATH $PATH_APP$NAME_APP/
+WORKDIR $FULL_PATH
+COPY . .
+
+RUN if [ ! -e ${FULL_PATH}src/App.js ]; then cd $PATH_APP && npx create-react-app $NAME_APP; fi
+
+EXPOSE 3000
+
+

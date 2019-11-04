@@ -1,0 +1,95 @@
+.fullscreen .menu-left-container{
+    transform: translateX(-100%);
+}
+.fullscreen .menu-left-container .hide-show-menu{
+    right: -52px;
+    transform: rotate(0deg);
+    opacity: 0.4;
+}
+
+.menu-left-container{
+    height: 100vh;
+    width: 280px;
+    background-color: #FF5722;
+    position: absolute;
+    top: 0;
+    transform: translateX(0%);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 0px 10px;
+    z-index: 1;
+
+    .menu-left-header{
+        border-bottom: 1px solid #ff8f6c;
+        display: flex;
+        padding-top: 7px;
+
+        .title, img {
+            margin: auto 0;
+        }
+    
+        img{
+            width: 50px;
+            padding: 6px;
+        }
+    
+        .title{
+            color: #fff;
+            font-size: 28px;
+            font-weight: bolder;
+            position: relative;
+            left: -12px;
+            top: 8px;
+        }
+    }
+
+    .menu-left-link{
+        transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        display: block;
+        margin: 10px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        text-transform: uppercase;
+        padding: 0px 5px;
+        border-bottom: 1px solid #ff6939;
+
+        &.selected-link{
+            background: #ff784d;
+            border-radius: 8px;
+        }
+        &:hover{
+            background: #ff8f6c;
+            border-radius: 25px;
+        }
+        & .menu-icon{
+            font-family: Font Awesome\ 5 Free;
+            font-weight: 600;
+            font-size: 26px;
+            color: #ffc5b2;
+            padding: 10px;
+            vertical-align: sub;
+            transition: color 0.7s ease-in-out;
+        }
+        &:hover .menu-icon{
+            color: #fff;
+        }
+    }
+
+    & .hide-show-menu{
+        background: #ff5722;
+        position: absolute;
+       
+        padding: 5px 8px;
+        font-size: 30px;
+        border-radius: 100%;
+        border: 1px solid #ffc7b5;
+        color: #fff;
+        top: 50%;
+        cursor: pointer;
+        transform: rotate(180deg);
+        right: -24px;
+        box-shadow: -1px -1px 0px #751c00;
+        
+        transition: all 1s ease-out;
+    }
+}

@@ -1,0 +1,18 @@
+.App {
+  position: relative;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.pages{
+  width: 100%;
+  margin-left:300px;
+  transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fullscreen .pages{
+  margin-left:0px;
+}

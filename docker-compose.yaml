@@ -1,0 +1,62 @@
+version: '3'
+
+volumes: 
+  node_modules-frontend:
+  node_modules-frontend-tpl:
+  node_modules-backend:
+    
+services:
+  # FRONTEND
+  node-binance-frontend-tpl:
+    container_name: binance-frontend-tpl
+    build: 
+      context: ./frontend-tpl
+    volumes: 
+      - ./frontend-tpl:/home/app/bot_binance/
+      - node_modules-frontend-tpl:/home/app/bot_binance/node_modules/
+      - ./frontend-tpl/entrypoint-compose.sh:/entrypoint-compose.sh
+      - ./frontend-tpl:/build-dir/
+    ports:
+      - "3011:3000"
+    entrypoint: "/entrypoint-compose.sh"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    depends_on: 
+      - node-binance-backend
+
+  # FRONTEND
+  node-binance-frontend:
+    container_name: binance-frontend
+    build: 
+      context: ./frontend
+    volumes: 
+      - ./frontend:/home/app/bot_binance_frontend/
+      - node_modules-frontend:/home/app/bot_binance_frontend/node_modules/
+      - ./frontend/entrypoint-compose.sh:/entrypoint-compose.sh
+      - ./frontend:/build-dir/
+    ports:
+      - "3010:3000"
+    entrypoint: "/entrypoint-compose.sh"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    depends_on: 
+      - node-binance-backend
+
+  # BACKEND
+  node-binance-backend:
+    container_name: binance-backend
+    build: 
+      context: ./backend
+    volumes: 
+      - ./backend:/home/app/bot_binance_api/
+      - ./backend:/build-dir/
+      - node_modules-backend:/home/app/bot_binance_api/node_modules/
+      - ./backend/entrypoint-compose.sh:/entrypoint-compose.sh
+    ports:
+      - "3012:3000"
+    entrypoint: "/entrypoint-compose.sh"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
