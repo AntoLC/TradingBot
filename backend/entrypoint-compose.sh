@@ -3,7 +3,7 @@
 # NAME_APP -- ENV = Variable in docker or dockerfile
 echo "Start Entry Point App: $NAME_APP"
 
-if [ ! -e $PATH_APP$NAME_APP/app.js ]; then
+if [ ! -e ${FULLPATH}/app.js ]; then
     # Create folder and go inside
     mkdir /build-dir && echo "mkdir /build-dir"
     cd /build-dir && echo "cd /build-dir"
@@ -25,7 +25,7 @@ if [ ! -e $PATH_APP$NAME_APP/app.js ]; then
 fi
 
 # Goto app and start it
-cd $PATH_APP$NAME_APP/ && echo "cd $PATH_APP$NAME_APP/"
+cd ${FULLPATH}/ && echo "cd ${FULLPATH}/"
 echo "npm install"
 npm install
 echo "DEBUG=$NAME_APP:* npm run devstart"

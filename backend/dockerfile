@@ -2,13 +2,12 @@ FROM node:10.16-alpine
 
 ENV PATH_APP /home/app/
 ENV NAME_APP bot_binance_api
-WORKDIR $PATH_APP
+ENV FULLPATH ${PATH_APP}${NAME_APP}
+WORKDIR ${FULLPATH}/
 
 COPY . .
 
-RUN if [ ! -e $PATH_APP$NAME_APP/app.js ]; then npx express-generator $NAME_APP ; fi
-
-WORKDIR $PATH_APP$NAME_APP/
+RUN if [ ! -e ${FULLPATH}/app.js ]; then cd $PATH_APP && npx express-generator $NAME_APP ; fi
 
 RUN npm install
 #RUN if [ -e $PATH_APP$NAME_APP/package.json ]; then npm start ; fi
