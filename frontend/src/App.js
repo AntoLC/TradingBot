@@ -33,7 +33,6 @@ const App = ({classMenuLeft, connectionSocket}) => {
    *  Add class to hide the menu
    */
   useEffect(() => {
-    console.debug("useEffect2", classMenuLeft);
     setMenuLeft(classMenuLeft ? '' : 'fullscreen');
     setPageSmooth('');
   },[classMenuLeft]);

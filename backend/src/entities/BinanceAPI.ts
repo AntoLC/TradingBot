@@ -1,11 +1,17 @@
-class BinanceAPI{
+export interface IBinanceObserver {
+    flux_data(data: string): void;
+}
+
+export class BinanceAPI{
+    private binanceObserver:Array<IBinanceObserver>;
+    private binanceAPI : any | null;
 
     constructor(){
         this.binanceObserver = [];
         this.binanceAPI = this.connect();
     }
 
-    connect(){
+    connect():any{
         return require('node-binance-api')().options({
             APIKEY: process.env.APIKEY,
             APISECRET: process.env.APISECRET,
@@ -13,16 +19,18 @@ class BinanceAPI{
         });
     }
 
-    registerBinanceObserver(observer){
+    registerBinanceObserver(observer: IBinanceObserver){
         this.binanceObserver.push(observer);
     }
 
-    startListener(){
+    startListener():void{
         /*this.binanceAPI.prices('BNBBTC', (error, ticker) => {
             console.log("Price of BNB: ", ticker.BNBBTC);
             this.send_data(ticker.BNBBTC);
         });*/
-        this.binanceAPI.websockets.candlesticks(['KAVAUSDT'], "1m", (candlesticks) => {
+        if (this.binanceAPI === null) return;
+           
+        this.binanceAPI.websockets.candlesticks(['KAVAUSDT'], "1m", (candlesticks: any) => {
             let { e:eventType, E:eventTime, s:symbol, k:ticks } = candlesticks;
             let { o:open, h:high, l:low, c:close, v:volume, n:trades, i:interval, x:isFinal, q:quoteVolume, V:buyVolume, Q:quoteBuyVolume } = ticks;
             console.log(symbol+" "+interval+" candlestick update");
@@ -56,16 +64,13 @@ class BinanceAPI{
         }, {limit: 1, endTime: 1514764800000});*/
     }
 
-    send_data(data){
+    send_data(data: string){
         this.binanceObserver.forEach(observer => {
             observer.flux_data(data);
         });
     }
 }
 
-module.exports = BinanceAPI;
-
-  
   // binance.websockets.chart("BNBBTC", "1m", (symbol, interval, chart) => {
   //   let tick = binance.last(chart);
   //   const last = chart[tick].close;

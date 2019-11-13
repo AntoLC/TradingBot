@@ -51,8 +51,8 @@ services:
       context: ./backend
     volumes: 
       - ./backend:/home/app/bot_binance_api/
-      - ./backend:/build-dir/
-      - node_modules-backend:/home/app/bot_binance_api/node_modules/
+      #- ./backend:/build-dir/bot_binance_api/
+      - ./backend/node_modules:/home/app/bot_binance_api/node_modules/
       - ./backend/entrypoint-compose.sh:/entrypoint-compose.sh
     ports:
       - "3012:3000"
