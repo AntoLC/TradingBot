@@ -29,7 +29,7 @@ fi
 
 # Goto app and start it
 cd $FULL_PATH && echo "cd $FULL_PATH"
-echo "yarn --check-files"
-yarn --check-files
+# echo "yarn --check-files"
+# yarn --check-files
 echo "yarn start"
 yarn start

@@ -1,7 +1,7 @@
 FROM node:10.16-alpine
 
 ENV PATH_APP /home/app/
-WORKDIR $PATH_APP
+WORKDIR ${PATH_APP}
 COPY ./package.json ./package.json
 
 #RUN if [ ! -e $PATH_APP$NAME_APP/package.json ]; then npx create-react-app $NAME_APP ; fi
@@ -12,7 +12,8 @@ COPY ./package.json ./package.json
 #RUN apk add openssh
 
 ENV NAME_APP bot_binance
-WORKDIR $PATH_APP$NAME_APP/
+ENV FULL_PATH ${PATH_APP}${NAME_APP}
+WORKDIR ${FULL_PATH}/
 COPY . .
 
 # RUN if [ ! -e $PATH_APP$NAME_APP/package.json ]; \
@@ -20,7 +21,7 @@ COPY . .
 #     elif [ ! -e $PATH_APP$NAME_APP/src/App.js ]; \
 #     then npm rebuild; \
 #     fi
-RUN if [ ! -e $PATH_APP$NAME_APP/src/App.js ]; then npx create-react-app $NAME_APP; fi
+RUN if [ ! -e ${FULL_PATH}/src/App.js ]; then cd ${PATH_APP} && npx create-react-app ${NAME_APP}; fi
 
 EXPOSE 3000
 

@@ -27,6 +27,7 @@ fi
 # Goto app and start it
 cd ${FULLPATH}/ && echo "cd ${FULLPATH}/"
 echo "npm install"
-npm install
+#npm install
 echo "DEBUG=$NAME_APP:* npm run devstart"
-DEBUG=$NAME_APP:* npm run devstart
+#DEBUG=$NAME_APP:* npm run devstart
+DEBUG=$NAME_APP:* npm run start

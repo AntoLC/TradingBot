@@ -4,7 +4,7 @@
 echo "Start Entry Point App: $NAME_APP"
 
 # If app overload and delete by docker-compose, we create it again then overload it
-if [ ! -e $PATH_APP$NAME_APP/src/index.js ]; then
+if [ ! -e ${FULL_PATH}/src/index.js ]; then
     # Create folder and go inside
     mkdir /build-dir && echo "mkdir /build-dir"
     cd /build-dir && echo "cd /build-dir"
@@ -22,13 +22,13 @@ if [ ! -e $PATH_APP$NAME_APP/src/index.js ]; then
     npx create-react-app $NAME_APP;
     
     # Copy app
-    echo "cp -r /build-dir/$NAME_APP/* $PATH_APP$NAME_APP/"
-    cp -r /build-dir/$NAME_APP/* $PATH_APP$NAME_APP/
+    echo "cp -r /build-dir/$NAME_APP/* ${FULL_PATH}/"
+    cp -r /build-dir/$NAME_APP/* ${FULL_PATH}/
 fi
 
 # Goto app and start it
-cd $PATH_APP$NAME_APP/ && echo "cd $PATH_APP$NAME_APP/"
-#echo "yarn --check-files"
-#yarn --check-files
+cd ${FULL_PATH}/ && echo "cd ${FULL_PATH}/"
+echo "yarn --check-files"
+yarn --check-files
 echo "yarn start"
 yarn start
