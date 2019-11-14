@@ -8,7 +8,8 @@ export const cleaningDataSocket = (data_socket) => {
         data_socket_clean.close = data_socket.c;
     }
     else if(Array.isArray(data_socket)){
-        const last_tick = data_socket[0];
+        //const last_tick = data_socket[0];
+        const last_tick = data_socket;
         let [time, open, high, low, close, volume, closeTime, assetVolume, trades, buyBaseVolume, buyAssetVolume, ignored] = last_tick;
         
         time_response = time;
@@ -23,9 +24,10 @@ export const cleaningDataSocket = (data_socket) => {
 
 const get_formated_time = (time) => {
     const date = new Date(time);
+    const dayMonth = date.getDate()+'-'+date.getMonth();
     const hours = date.getHours();
     const minutes = "0" + date.getMinutes();
     const seconds = "0" + date.getSeconds();
 
-    return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    return dayMonth+" "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 }

@@ -1,6 +1,6 @@
 const dataSocketConf = {
     ENDPOINT: "localhost:3012/",
-    ROOM: "Trhello"
+    ROOM: "BinanceIO"
 };
 
 export default dataSocketConf;

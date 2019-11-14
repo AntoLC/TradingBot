@@ -12,5 +12,3 @@ COPY . .
 RUN if [ ! -e ${FULL_PATH}src/App.js ]; then cd $PATH_APP && npx create-react-app $NAME_APP; fi
 
 EXPOSE 3000
-
-

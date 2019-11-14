@@ -124,8 +124,21 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
 let dataChart = [];
 let labelChart = [];
 const dashboardPanelChart = {
-  update_data: data =>  dataChart = [...dataChart, data],
-  update_label: label => labelChart = [...labelChart, label],
+  update_data: data =>  {
+    dataChart = [...dataChart, data];
+    if(dataChart.length > 50)
+      dataChart = dataChart.slice(1);
+  },
+  update_label: label => 
+  {
+    labelChart = [...labelChart, label];
+    if(labelChart.length > 50)
+      labelChart = labelChart.slice(1);
+
+      /*labelChart = labelChart.map((label) => {
+        return (label.includes("5:00") || label.includes("0:00")) ? label : "";
+      });*/
+  },
   get_data: () => {return dataChart},
   data: canvas => {
     const ctx = canvas.getContext("2d");
@@ -190,7 +203,7 @@ const dashboardPanelChart = {
           ticks: {
             fontColor: "rgba(255,255,255,0.4)",
             fontStyle: "bold",
-            beginAtZero: true,
+            /*beginAtZero: true,*/
             maxTicksLimit: 5,
             padding: 10
           },
@@ -212,7 +225,6 @@ const dashboardPanelChart = {
           ticks: {
             padding: 10,
             fontColor: "rgba(255,255,255,0.4)",
-            fontStyle: "bold"
           }
         }
       ]

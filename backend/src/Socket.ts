@@ -17,6 +17,7 @@ export const SocketInit = () => {
     socketIO.get_IO().attach(server);
     
     const binanceAPI = new BinanceAPI();
+    socketIO.registerBinanceObserver(binanceAPI);
     binanceAPI.registerBinanceObserver(socketIO);
     binanceAPI.startListener();
 }
@@ -24,7 +25,6 @@ export const SocketInit = () => {
 /**
 * Event listener for HTTP server "error" event.
 */
-
 function onError(error: any) {
     if (error.syscall !== 'listen') {
         throw error;

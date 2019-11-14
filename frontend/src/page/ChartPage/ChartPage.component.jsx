@@ -27,7 +27,7 @@ const ChartPage = ({response_socket}) => {
 		dashboardPanelChart.update_data(response_socket.close);
 		dashboardPanelChart.update_label(response_socket.formattedTime);
 		
-		console.debug("set_data_server:", dashboardPanelChart.get_data());
+		//console.debug("set_data_server:", dashboardPanelChart.get_data());
 	}
 	
 	return (
