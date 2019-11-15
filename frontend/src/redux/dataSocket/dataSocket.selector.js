@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 const selectDataSocket = state => state.dataSocket
 
-export const selectResponseSocket = createSelector(
+export const selectChartTop = createSelector(
     [selectDataSocket],
-    stateDataSocket => stateDataSocket.response_socket
+    stateDataSocket => stateDataSocket.data_chart_top
 );

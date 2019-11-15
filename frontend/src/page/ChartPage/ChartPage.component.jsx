@@ -13,22 +13,22 @@ import {
 
 // Redux
 import {connect} from 'react-redux';
-import {selectResponseSocket} from '../../redux/dataSocket/dataSocket.selector';
+import {selectChartTop} from '../../redux/dataSocket/dataSocket.selector';
 import { createStructuredSelector } from 'reselect';
 
-const ChartPage = ({response_socket}) => {
-	useEffect(() => {
-		if(Object.entries(response_socket).length && response_socket.constructor === Object)
+const ChartPage = ({dataChartTop}) => {
+	/*useEffect(() => {
+		if(Object.entries(dataChartTop).length && dataChartTop.constructor === Object)
 			set_data_server();
-	},[response_socket]);
+	},[dataChartTop]);
 	
 	const set_data_server = () => {
-		console.debug("set_data_server_response_socket:", response_socket);
+		console.debug("set_data_server_response_socket:", dataChartTop);
 		//dashboardPanelChart.update_data(response_socket.close);
 		//dashboardPanelChart.update_label(response_socket.formattedTime);
 		
 		//console.debug("set_data_server:", dashboardPanelChart.get_data());
-	}
+	}*/
 	
 	return (
 		<>
@@ -36,7 +36,7 @@ const ChartPage = ({response_socket}) => {
 		size="lg"
 		content={
 			<Line
-			data={dashboardPanelChart.data(response_socket.formattedTime, response_socket.close)}
+			data={dashboardPanelChart.data(dataChartTop.formattedTime, dataChartTop.close)}
 			options={dashboardPanelChart.options}
 			/>
 		}/>
@@ -45,6 +45,6 @@ const ChartPage = ({response_socket}) => {
 }
 	
 const mapStateToProps = createStructuredSelector({
-	response_socket: selectResponseSocket,
+	dataChartTop: selectChartTop,
 });
 export default connect(mapStateToProps)(ChartPage);

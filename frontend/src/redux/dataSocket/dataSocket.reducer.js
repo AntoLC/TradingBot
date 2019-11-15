@@ -1,9 +1,9 @@
 import dataSocketActionTypes from './dataSocket.type';
-import { cleaningDataSocket } from './dataSocket.utils';
+import { cleaningDataSymbol } from './dataSocket.utils';
 
 
 const INITIAL_STATE = {
-	response_socket:{
+	data_chart_top:{
 		close: [],
 		formattedTime: []
 	}
@@ -11,13 +11,21 @@ const INITIAL_STATE = {
 
 const dataSocketReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case dataSocketActionTypes.SET_DATA_SOCKET:
-		return {
-			...state,
-			response_socket: cleaningDataSocket(state.response_socket, action.response_socket),
-		}
+		case dataSocketActionTypes.SET_NEW_DATA_SYMBOL_CHART_TOP:
+			return {
+				...state,
+				data_chart_top: cleaningDataSymbol({
+					close: [],
+					formattedTime: []
+				}, action.response_socket),
+			}
+		case dataSocketActionTypes.SET_DATA_SYMBOL_CHART_TOP:
+			return {
+				...state,
+				data_chart_top: cleaningDataSymbol(state.data_chart_top, action.response_socket),
+			}
 		default:
-		return state;
+			return state;
 	}
 }
 

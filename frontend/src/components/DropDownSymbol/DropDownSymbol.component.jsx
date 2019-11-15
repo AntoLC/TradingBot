@@ -6,7 +6,7 @@ import {
     DropdownMenu,
     DropdownItem,
 } from "reactstrap";
-import {changeSymbol} from '../../redux/dataSocket/dataSocket.action';
+import {changeSymbolChartTop} from '../../redux/dataSocket/dataSocket.action';
 import {connect} from 'react-redux';
 
 
@@ -40,6 +40,6 @@ const DropDownSymbol = ({changeSymbol}) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    changeSymbol: (symbol) => dispatch(changeSymbol(symbol))
+    changeSymbol: (symbol) => dispatch(changeSymbolChartTop(symbol))
 });
 export default connect(null, mapDispatchToProps)(DropDownSymbol);

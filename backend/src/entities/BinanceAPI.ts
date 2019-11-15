@@ -8,6 +8,9 @@ export class BinanceAPI implements ISocketIOObserver{
     private binanceObserver:Array<IBinanceObserver>;
     private binanceAPI : any | null;
     private symbolOrigin : string = "BTCUSDT";
+    private methodAllowed = {
+        CANDLESTICK: "CANDLESTICK"
+    };
 
     constructor(){
         this.binanceObserver = [];
@@ -22,55 +25,41 @@ export class BinanceAPI implements ISocketIOObserver{
         });
     }
 
-    async requestClientIO(data: {type: string, arg: string}): Promise<[]>{
+    async requestClientIO(data: any): Promise<string>{
         switch (data.type) {
-            case "CANDLESTICK":
-                
+            case this.methodAllowed.CANDLESTICK:
+                return (data.symbol) 
+                    ? await this.lastCandlesticks(data.symbol)
+                    : JSON.stringify([]);
                 break;
             default:
+                return JSON.stringify([]);;
                 break;
         }
-
-        //if (this.binanceAPI === null) 
-         //   return "BinanceIO Connection Problem";
-
-        let returnTicks = await this.lastCandlesticks(this.symbolOrigin);
-        console.debug("returnTicks", returnTicks);
-        return returnTicks;
     }
 
-    async lastCandlesticks(symbol: string): Promise<[]>{
-        //let returnTicks:any = [];
-
+    lastCandlesticks(symbol: string): Promise<string>{
         return new Promise(resolve => {
-            //api.on(event, response => resolve(response));
-            this.binanceAPI.candlesticks(symbol, "1m", (error: any, ticks: [], symbol: string) => {
+            this.binanceAPI.candlesticks(symbol, "1m", (error: any, ticks: any[], symbol: string) => {
                 //console.log("candlesticks: "+ticks);
-                resolve(ticks);
-                ticks.forEach((value: any) => {
-                    //console.log("candles: "+value);
-                    //let [time, open, high, low, close, volume, closeTime, assetVolume, 
-                    //    trades, buyBaseVolume, buyAssetVolume, ignored] = value;
-                    
-                    //this.send_data(value);
-                });
-            }, {limit: 50});
-        });
-
-        return await this.binanceAPI.candlesticks(symbol, "1m", (error: any, ticks: [], symbol: string) => {
-            //console.log("candlesticks: "+ticks);
-            return ticks;
-            ticks.forEach((value: any) => {
-                //console.log("candles: "+value);
                 //let [time, open, high, low, close, volume, closeTime, assetVolume, 
-                //    trades, buyBaseVolume, buyAssetVolume, ignored] = value;
+                    //    trades, buyBaseVolume, buyAssetVolume, ignored] = value;
                 
-                //this.send_data(value);
-            });
-        }, {limit: 50});
-         // endTime: 1573707600000 // Actually it is like a start time
+                const formated_data:any[] = [];
+                if(ticks)
+                {
+                    ticks.forEach(element => {
+                        formated_data.push({
+                            timestamp: element[0],
+                            close: element[4]
+                        });
+                    });
+                }
 
-        //return returnTicks;
+                resolve(JSON.stringify(formated_data));
+            }, {limit: 5});
+        });
+        // endTime: 1573707600000 // Actually it is like a start time
     }
 
     registerBinanceObserver(observer: IBinanceObserver){
@@ -86,7 +75,7 @@ export class BinanceAPI implements ISocketIOObserver{
         
         this.binanceAPI.websockets.candlesticks([this.symbolOrigin], "1m", (candlesticks: any) => {
             let { e:eventType, E:eventTime, s:symbol, k:ticks } = candlesticks;
-            let { o:open, h:high, l:low, c:close, v:volume, n:trades, i:interval, x:isFinal, q:quoteVolume, V:buyVolume, Q:quoteBuyVolume } = ticks;
+            let { t:timestamp, o:open, h:high, l:low, c:close, v:volume, n:trades, i:interval, x:isFinal, q:quoteVolume, V:buyVolume, Q:quoteBuyVolume } = ticks;
             /*console.log(symbol+" "+interval+" candlestick update");
             console.log("open: "+open);
             console.log("high: "+high);
@@ -94,8 +83,14 @@ export class BinanceAPI implements ISocketIOObserver{
             console.log("close: "+close);
             console.log("volume: "+volume);
             console.log("isFinal: "+isFinal);*/
-            if(isFinal)
-                this.send_data(ticks);
+            if(isFinal){
+                const formated_data = [{
+                    timestamp: timestamp,
+                    close: close
+                }];
+
+                this.send_data(JSON.stringify(formated_data));
+            }
           });
 
         /*setInterval(() => {
