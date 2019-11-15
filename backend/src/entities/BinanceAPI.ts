@@ -1,7 +1,7 @@
 import { ISocketIOObserver } from './SocketApi';
 
 export interface IBinanceObserver {
-    flux_data(data: string): void;
+    flux_data(symbol: string, data: string): void;
 }
 
 export class BinanceAPI implements ISocketIOObserver{
@@ -11,6 +11,13 @@ export class BinanceAPI implements ISocketIOObserver{
     private methodAllowed = {
         CANDLESTICK: "CANDLESTICK"
     };
+    private listSymbol: string[] = [
+        "BTCUSDT",
+        "LINKUSDT",
+        "VETUSDT",
+        "ETHUSDT"
+    ];
+    
 
     constructor(){
         this.binanceObserver = [];
@@ -57,7 +64,7 @@ export class BinanceAPI implements ISocketIOObserver{
                 }
 
                 resolve(JSON.stringify(formated_data));
-            }, {limit: 5});
+            }, {limit: 50});
         });
         // endTime: 1573707600000 // Actually it is like a start time
     }
@@ -73,7 +80,7 @@ export class BinanceAPI implements ISocketIOObserver{
         });*/
         if (this.binanceAPI === null) return;
         
-        this.binanceAPI.websockets.candlesticks([this.symbolOrigin], "1m", (candlesticks: any) => {
+        this.binanceAPI.websockets.candlesticks(this.listSymbol, "1m", (candlesticks: any) => {
             let { e:eventType, E:eventTime, s:symbol, k:ticks } = candlesticks;
             let { t:timestamp, o:open, h:high, l:low, c:close, v:volume, n:trades, i:interval, x:isFinal, q:quoteVolume, V:buyVolume, Q:quoteBuyVolume } = ticks;
             /*console.log(symbol+" "+interval+" candlestick update");
@@ -89,7 +96,7 @@ export class BinanceAPI implements ISocketIOObserver{
                     close: close
                 }];
 
-                this.send_data(JSON.stringify(formated_data));
+                this.send_data(symbol, JSON.stringify(formated_data));
             }
           });
 
@@ -113,9 +120,9 @@ export class BinanceAPI implements ISocketIOObserver{
         }, {limit: 1, endTime: 1514764800000});*/
     }
 
-    send_data(data: string){
+    send_data(symbol: string, data: string){
         this.binanceObserver.forEach(observer => {
-            observer.flux_data(data);
+            observer.flux_data(symbol, data);
         });
     }
 

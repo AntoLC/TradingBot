@@ -14,7 +14,7 @@ export const SocketInit = () => {
     server.on('listening', onListening);
     
     const socketIO = new SocketIO();
-    socketIO.get_IO().attach(server);
+    socketIO.getIO().attach(server);
     
     const binanceAPI = new BinanceAPI();
     socketIO.registerBinanceObserver(binanceAPI);

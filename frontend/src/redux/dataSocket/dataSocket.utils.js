@@ -32,5 +32,5 @@ const get_formated_time = (time) => {
     const minutes = "0" + date.getMinutes();
     const seconds = "0" + date.getSeconds();
 
-    return dayMonth+" "+hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    return dayMonth+" "+hours + ':' + minutes.substr(-2);
 }
