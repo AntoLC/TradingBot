@@ -1,5 +1,7 @@
-import {all, call, takeLatest, put, take, fork, cancel} from 'redux-saga/effects';
+import {select, all, call, takeLatest, put, take, fork, cancel} from 'redux-saga/effects';
 import {eventChannel, delay} from 'redux-saga';
+
+import { selectUser } from '../user/user.selector';
 
 import dataSocketActionTypes from './dataSocket.type';
 import { 
@@ -37,10 +39,10 @@ const requestNewSymbol = (user, symbol) => {
     yield fork(channelChartTop, socket);
 }*/
 
-function* channelNewChartTop(socket) {
+function* channelNewChartTop({socket, channel}) {
     const channelNewChartTop= yield call(subscribeChannel, {
         socket: socket, 
-        channel: "toto"
+        channel: channel
     });
     while (true) {
         const channelNewChartTopPayload = yield take(channelNewChartTop);
@@ -59,19 +61,26 @@ function* channelChartTop({socket, channel}) {
     }
 }
 
+function* initChartTop(){
+    const user = yield select(selectUser);
+    channelChartTopIO = yield fork(channelChartTop, {
+        socket: socket, 
+        channel: dataSocketConf.ROOM+"=BTCUSDT"
+    });
+    yield fork(channelNewChartTop, {
+        socket: socket, 
+        channel: user+"_top"
+    });
+    
+    requestNewSymbol(user+"_top", "BTCUSDT");
+}
+
 export function* connectionSocketSaga(){
     yield console.log("connectionSocket");
     
     try{
         yield socket = socketIOClient(dataSocketConf.ENDPOINT);
-        //yield fork(handleIO, socket);
-        channelChartTopIO = yield fork(channelChartTop, {
-            socket: socket, 
-            channel: dataSocketConf.ROOM+"=BTCUSDT"
-        });
-        yield fork(channelNewChartTop, socket);
-        
-        requestNewSymbol("toto", "BTCUSDT");
+        yield initChartTop();
     }catch(error){
         yield console.error("Socket Connection Error: Retry 10 secondes", error);
         yield setTimeout(() => { connectionSocketSaga() }, 10000);
@@ -79,8 +88,9 @@ export function* connectionSocketSaga(){
 }
 
 export function* changeSymbolChartTopSaga({symbol}){
+    const user = yield select(selectUser);
     yield cancel(channelChartTopIO);
-    requestNewSymbol("toto", symbol);
+    requestNewSymbol(user+"_top", symbol);
     channelChartTopIO = yield fork(channelChartTop, {
         socket: socket, 
         channel: dataSocketConf.ROOM+"="+symbol

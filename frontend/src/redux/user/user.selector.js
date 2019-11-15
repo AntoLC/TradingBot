@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
-const selectClass = state => state.class
+const selectorUser = state => state.user
 
-export const selectClassMenuLeft = createSelector(
-    [selectClass],
-    stateClass => stateClass.menu_left
+export const selectUser = createSelector(
+    [selectorUser],
+    stateUser => stateUser.user
 );

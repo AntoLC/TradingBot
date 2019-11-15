@@ -1,5 +1,5 @@
-const ClassActionTypes = {
-    TOGGLE_MENU_LEFT: "TOGGLE_MENU_LEFT"
+const UserActionTypes = {
+    SET_NEW_USER: "SET_NEW_USER"
 };
 
-export default ClassActionTypes;
+export default UserActionTypes;

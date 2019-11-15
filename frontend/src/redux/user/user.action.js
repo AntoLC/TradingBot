@@ -1,5 +1,5 @@
-import ClassActionTypes from './class.type';
+import UserActionTypes from './user.type';
 
-export const toggleMenuLeft = () => ({
-    type: ClassActionTypes.TOGGLE_MENU_LEFT
+export const setNewUser = () => ({
+    type: UserActionTypes.SET_NEW_USER
 });

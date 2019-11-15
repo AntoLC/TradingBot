@@ -10,18 +10,25 @@ import './App.scss';
 import {connect} from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectClassMenuLeft } from './redux/class/class.selector';
+import { setNewUser } from './redux/user/user.action';
+import { connectionSocket } from './redux/dataSocket/dataSocket.action';
 
 
-const App = ({classMenuLeft, connectionSocket}) => {
+const App = ({classMenuLeft, setNewUser, connectionSocket}) => {
   const [menuLeft, setMenuLeft] = useState('fullscreen');
   const [pageSmooth, setPageSmooth] = useState('');
 
   /**
    *  When Mounted
-   *  The css property calc() slow down the animation
-   *  So we listen when the animation is done to add calc on it
    */
   useEffect(() => {
+    setNewUser();
+    connectionSocket();
+    
+    /*
+    *  The css property calc() slow down the animation
+    *  So we listen when the animation is done to add calc on it
+    */
     const el = document.querySelector('.pages');
     el.addEventListener('transitionend', () => {
       let AppID = document.getElementById('App');
@@ -53,4 +60,8 @@ const App = ({classMenuLeft, connectionSocket}) => {
 const mapStateToProps = createStructuredSelector({
   classMenuLeft: selectClassMenuLeft,
 });
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  setNewUser: () => dispatch(setNewUser()),
+  connectionSocket: () => dispatch(connectionSocket())
+});
+export default connect(mapStateToProps, mapDispatchToProps)(App);

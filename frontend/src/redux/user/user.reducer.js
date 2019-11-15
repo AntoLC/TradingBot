@@ -1,19 +1,19 @@
-import ClassActionTypes from './class.type';
+import UserActionTypes from './user.type';
 
 const INITIAL_STATE = {
-	menu_left: false
+	user: null
 }
 
-const classReducer = (state = INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ClassActionTypes.TOGGLE_MENU_LEFT:
+		case UserActionTypes.SET_NEW_USER:
 		return {
 			...state,
-			menu_left: !state.menu_left,
+			user: (!state.user) ? Math.random().toString(36).slice(2) : state.user,
 		}
 		default:
 		return state;
 	}
 }
 
-export default classReducer;
+export default userReducer;
