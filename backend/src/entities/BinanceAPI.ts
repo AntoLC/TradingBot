@@ -22,26 +22,55 @@ export class BinanceAPI implements ISocketIOObserver{
         });
     }
 
-    connectionIO(): string{
-        if (this.binanceAPI === null) 
-            return "BinanceIO Connection Problem";
+    async requestClientIO(data: {type: string, arg: string}): Promise<[]>{
+        switch (data.type) {
+            case "CANDLESTICK":
+                
+                break;
+            default:
+                break;
+        }
 
-        this.lastCandlesticks(this.symbolOrigin);
+        //if (this.binanceAPI === null) 
+         //   return "BinanceIO Connection Problem";
 
-        return "BinanceIO Connected";
+        let returnTicks = await this.lastCandlesticks(this.symbolOrigin);
+        console.debug("returnTicks", returnTicks);
+        return returnTicks;
     }
 
-    lastCandlesticks(symbol: string): void{
-        this.binanceAPI.candlesticks(symbol, "1m", (error: any, ticks: any, symbol: string) => {
+    async lastCandlesticks(symbol: string): Promise<[]>{
+        //let returnTicks:any = [];
+
+        return new Promise(resolve => {
+            //api.on(event, response => resolve(response));
+            this.binanceAPI.candlesticks(symbol, "1m", (error: any, ticks: [], symbol: string) => {
+                //console.log("candlesticks: "+ticks);
+                resolve(ticks);
+                ticks.forEach((value: any) => {
+                    //console.log("candles: "+value);
+                    //let [time, open, high, low, close, volume, closeTime, assetVolume, 
+                    //    trades, buyBaseVolume, buyAssetVolume, ignored] = value;
+                    
+                    //this.send_data(value);
+                });
+            }, {limit: 50});
+        });
+
+        return await this.binanceAPI.candlesticks(symbol, "1m", (error: any, ticks: [], symbol: string) => {
             //console.log("candlesticks: "+ticks);
+            return ticks;
             ticks.forEach((value: any) => {
                 //console.log("candles: "+value);
                 //let [time, open, high, low, close, volume, closeTime, assetVolume, 
                 //    trades, buyBaseVolume, buyAssetVolume, ignored] = value;
-                this.send_data(value);
+                
+                //this.send_data(value);
             });
         }, {limit: 50});
          // endTime: 1573707600000 // Actually it is like a start time
+
+        //return returnTicks;
     }
 
     registerBinanceObserver(observer: IBinanceObserver){

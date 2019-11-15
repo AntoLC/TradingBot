@@ -6,9 +6,12 @@ import {
     DropdownMenu,
     DropdownItem,
 } from "reactstrap";
+import {changeSymbol} from '../../redux/dataSocket/dataSocket.action';
+import {connect} from 'react-redux';
 
-const DropDownSymbol = () => {
-    const [dropdownOpen, setDropdownOpen] = useState(true);
+
+const DropDownSymbol = ({changeSymbol}) => {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [symbol, setSymbol] = useState('BTCUSDT');
     const symbols = ['BTCUSDT', 'LINKUSDT', 'VETUSDT', 'ETHUSDT'];
     const dropdownItemsSymbol = symbols.map((_symbol) =>
@@ -16,7 +19,7 @@ const DropDownSymbol = () => {
             tag="a" 
             key={_symbol}
             className={(symbol === _symbol ? "current" : "")}
-            onClick={() => setSymbol(_symbol)}
+            onClick={() => {setSymbol(_symbol);changeSymbol(_symbol)}}
         >
             {_symbol}
         </DropdownItem>
@@ -36,4 +39,7 @@ const DropDownSymbol = () => {
     );
 };
 
-export default DropDownSymbol;
+const mapDispatchToProps = dispatch => ({
+    changeSymbol: (symbol) => dispatch(changeSymbol(symbol))
+});
+export default connect(null, mapDispatchToProps)(DropDownSymbol);

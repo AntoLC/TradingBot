@@ -1,7 +1,8 @@
 import { IBinanceObserver } from './BinanceAPI';
+const Socket = require('socket.io')
 
 export interface ISocketIOObserver {
-    connectionIO(): string;
+    requestClientIO(data: {}): Promise<[]>;
 }
 
 export class SocketIO implements IBinanceObserver{
@@ -10,12 +11,20 @@ export class SocketIO implements IBinanceObserver{
     
     constructor(){
         this.socketIOObserver = [];
-        this.IO = require('socket.io')();
-        this.IO.on('connection', () => {
+        this.IO = Socket();
+        this.IO.on('connection', (socket: any) => {
             console.log('SocketIO Connected');
 
-            this.socketIOObserver.forEach(observer => {
-                this.IO.sockets.emit('BinanceIO', {msg: observer.connectionIO()});
+            
+           
+
+            socket.on('call' , (uid: string, data: []) => {
+                //socket.nickname = symbol;
+                //console.log(symbol + ' just connected!');
+                
+                this.socketIOObserver.forEach(async observer => {
+                    socket.emit(uid, {msg: await observer.requestClientIO(data)});
+                });
             });
 
             this.IO.on("disconnect", () => console.log("Client disconnected"));

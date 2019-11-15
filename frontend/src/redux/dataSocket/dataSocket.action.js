@@ -8,3 +8,8 @@ export const setDataSocket = (data) => ({
     type: dataSocketActionTypes.SET_DATA_SOCKET,
     response_socket: data.msg
 });
+
+export const changeSymbol = (symbol) => ({
+    type: dataSocketActionTypes.CHANGE_SYMBOL,
+    symbol: symbol
+});

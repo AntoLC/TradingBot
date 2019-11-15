@@ -47,9 +47,7 @@ class MenuLeft extends React.Component{
   }
 }
     
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleMenuLeft: () => dispatch(toggleMenuLeft())
-  }
-}
-export default connect(null,mapDispatchToProps)(MenuLeft);
+const mapDispatchToProps = dispatch => ({
+  toggleMenuLeft: () => dispatch(toggleMenuLeft())
+});
+export default connect(null, mapDispatchToProps)(MenuLeft);

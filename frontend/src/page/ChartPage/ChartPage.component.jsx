@@ -24,8 +24,8 @@ const ChartPage = ({response_socket}) => {
 	
 	const set_data_server = () => {
 		console.debug("set_data_server_response_socket:", response_socket);
-		dashboardPanelChart.update_data(response_socket.close);
-		dashboardPanelChart.update_label(response_socket.formattedTime);
+		//dashboardPanelChart.update_data(response_socket.close);
+		//dashboardPanelChart.update_label(response_socket.formattedTime);
 		
 		//console.debug("set_data_server:", dashboardPanelChart.get_data());
 	}
@@ -36,7 +36,7 @@ const ChartPage = ({response_socket}) => {
 		size="lg"
 		content={
 			<Line
-			data={dashboardPanelChart.data}
+			data={dashboardPanelChart.data(response_socket.formattedTime, response_socket.close)}
 			options={dashboardPanelChart.options}
 			/>
 		}/>

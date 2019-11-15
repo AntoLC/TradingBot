@@ -121,26 +121,8 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
 // ##############################
 // // // Dashboard view - Panel chart
 // #############################
-let dataChart = [];
-let labelChart = [];
 const dashboardPanelChart = {
-  update_data: data =>  {
-    dataChart = [...dataChart, data];
-    if(dataChart.length > 50)
-      dataChart = dataChart.slice(1);
-  },
-  update_label: label => 
-  {
-    labelChart = [...labelChart, label];
-    if(labelChart.length > 50)
-      labelChart = labelChart.slice(1);
-
-      /*labelChart = labelChart.map((label) => {
-        return (label.includes("5:00") || label.includes("0:00")) ? label : "";
-      });*/
-  },
-  get_data: () => {return dataChart},
-  data: canvas => {
+  data: (labelChart, dataChart) => canvas => {
     const ctx = canvas.getContext("2d");
     var chartColor = "#FFFFFF";
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);

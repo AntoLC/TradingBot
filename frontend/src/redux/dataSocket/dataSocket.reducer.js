@@ -3,7 +3,10 @@ import { cleaningDataSocket } from './dataSocket.utils';
 
 
 const INITIAL_STATE = {
-	response_socket:false
+	response_socket:{
+		close: [],
+		formattedTime: []
+	}
 }
 
 const dataSocketReducer = (state = INITIAL_STATE, action) => {
@@ -11,7 +14,7 @@ const dataSocketReducer = (state = INITIAL_STATE, action) => {
 		case dataSocketActionTypes.SET_DATA_SOCKET:
 		return {
 			...state,
-			response_socket: cleaningDataSocket(action.response_socket),
+			response_socket: cleaningDataSocket(state.response_socket, action.response_socket),
 		}
 		default:
 		return state;

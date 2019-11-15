@@ -6,6 +6,7 @@
     "bootstrap": "^4.3.1",
     "chart.js": "^2.9.1",
     "eslint-loader": "^3.0.2",
+    "lodash": "^4.17.15",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
     "react-chartjs-2": "^2.8.0",
