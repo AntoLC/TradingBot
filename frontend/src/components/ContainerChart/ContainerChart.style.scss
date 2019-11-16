@@ -1,0 +1,40 @@
+.container-chart {
+    height: 235px;
+    padding-top: 15px;
+    padding-bottom: 65px;
+    padding-left: 10px;
+    position: relative;
+    background: #2c2c2c;
+    background: linear-gradient(160deg, #2c2c2c 0%, #1f1f1f 100%);
+    overflow: hidden;
+
+    h3{
+        padding: 0;
+        margin: 0;
+        padding-left: 23px;
+        margin-bottom: 10px;
+        color: #aaa;
+    }
+
+    &.sm{
+        padding-top: 12px;
+        margin: 5px;
+        padding-left: 0;
+        padding-bottom: 20px;
+        border-radius: 4px;
+        background: linear-gradient(160deg, #fff 0%, #fff 100%);
+        color: #2c2c2c;
+        box-shadow: 2px 2px 20px #8c8c8c;
+        border: 1px solid #cacaca;
+
+        & .dropdown.nav-item .block-change-symbol{
+            color: #2c2c2c;
+            top: 7px;
+        }
+
+        h3{
+            padding-left: 10px;
+            color: unset;
+        }
+    }
+}

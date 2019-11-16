@@ -1,7 +1,6 @@
 import React from 'react';
 
-const TradePage
- = () => (
+const TradePage = () => (
     <div>
 
     </div>

@@ -38,30 +38,28 @@ const gradientChartOptionsConfiguration = {
   scales: {
     yAxes: [
       {
-        display: 0,
-        ticks: {
-          display: false,
-          maxTicksLimit: 7
-        },
         gridLines: {
           zeroLineColor: "transparent",
-          drawTicks: false,
-          display: false,
           drawBorder: false
+        },
+        ticks: {
+          maxTicksLimit: 7,
         }
       }
     ],
     xAxes: [
       {
-        display: 0,
         ticks: {
-          display: false
+          display: true,
+          maxTicksLimit: 8,
+          fontSize: 10,
         },
         gridLines: {
-          zeroLineColor: "transparent",
           drawTicks: false,
+          drawBorder: false,
           display: false,
-          drawBorder: false
+          color: "rgba(111,111,111,0.1)",
+          zeroLineColor: "transparent"
         }
       }
     ]
@@ -100,9 +98,10 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
     ],
     xAxes: [
       {
-        display: 0,
         ticks: {
-          display: false
+          display: true,
+          maxTicksLimit: 8,
+          fontSize: 10,
         },
         gridLines: {
           zeroLineColor: "transparent",
@@ -111,7 +110,7 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
           drawBorder: false
         }
       }
-    ]
+    ] 
   },
   layout: {
     padding: { left: 0, right: 0, top: 15, bottom: 15 }
@@ -207,6 +206,7 @@ const dashboardPanelChart = {
           ticks: {
             padding: 10,
             fontColor: "rgba(255,255,255,0.4)",
+            maxTicksLimit: 21,
           }
         }
       ]
@@ -219,7 +219,7 @@ const dashboardPanelChart = {
 // #############################
 
 const dashboardShippedProductsChart = {
-  data: canvas => {
+  data: (labelChart, dataChart) => canvas => {
     var ctx = canvas.getContext("2d");
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
     gradientStroke.addColorStop(0, "#80b6f4");
@@ -228,25 +228,13 @@ const dashboardShippedProductsChart = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
     return {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ],
+      labels: labelChart,
       datasets: [
         {
-          label: "Active Users",
+          label: "Chart 10mn",
           borderColor: "#f96332",
           pointBorderColor: "#FFF",
+          color: "#000",
           pointBackgroundColor: "#f96332",
           pointBorderWidth: 2,
           pointHoverRadius: 4,
@@ -255,7 +243,7 @@ const dashboardShippedProductsChart = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
+          data: dataChart
         }
       ]
     };
@@ -268,7 +256,7 @@ const dashboardShippedProductsChart = {
 // #############################
 
 const dashboardAllProductsChart = {
-  data: canvas => {
+  data: (labelChart, dataChart) => canvas => {
     var ctx = canvas.getContext("2d");
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
     gradientStroke.addColorStop(0, "#18ce0f");
@@ -277,10 +265,10 @@ const dashboardAllProductsChart = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
     return {
-      labels: ["12pm,", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
+      labels: labelChart,
       datasets: [
         {
-          label: "Email Stats",
+          label: "Chart 30mn",
           borderColor: "#18ce0f",
           pointBorderColor: "#FFF",
           pointBackgroundColor: "#18ce0f",
@@ -291,7 +279,7 @@ const dashboardAllProductsChart = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+          data: dataChart
         }
       ]
     };
@@ -304,29 +292,16 @@ const dashboardAllProductsChart = {
 // #############################
 
 const dashboard24HoursPerformanceChart = {
-  data: canvas => {
+  data: (labelChart, dataChart) => canvas => {
     var ctx = canvas.getContext("2d");
     var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB("#2CA8FF", 0.6));
     return {
-      labels: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ],
+      labels: labelChart,
       datasets: [
         {
-          label: "Active Countries",
+          label: "Chart 1h",
           backgroundColor: gradientFill,
           borderColor: "#2CA8FF",
           pointBorderColor: "#FFF",
@@ -337,7 +312,7 @@ const dashboard24HoursPerformanceChart = {
           pointRadius: 4,
           fill: true,
           borderWidth: 1,
-          data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155]
+          data: dataChart
         }
       ]
     };
@@ -371,9 +346,10 @@ const dashboard24HoursPerformanceChart = {
       ],
       xAxes: [
         {
-          display: 0,
           ticks: {
-            display: false
+            display: true,
+            maxTicksLimit: 8,
+            fontSize: 10,
           },
           gridLines: {
             zeroLineColor: "transparent",
