@@ -1,27 +1,14 @@
 FROM node:10.16-alpine
 
 ENV PATH_APP /home/app/
-WORKDIR ${PATH_APP}
-COPY ./package.json ./package.json
-
-#RUN if [ ! -e $PATH_APP$NAME_APP/package.json ]; then npx create-react-app $NAME_APP ; fi
-# npm run start with the definition at the package.json like this:
-# "start": "react-scripts start",
-
-#RUN apk add git
-#RUN apk add openssh
-
-ENV NAME_APP bot_binance
+ENV NAME_APP bot_binance_tpl
 ENV FULL_PATH ${PATH_APP}${NAME_APP}
-WORKDIR ${FULL_PATH}/
+ENV ENTRY_POINT_SERVER ${FULL_PATH}/src/index.js
+
+WORKDIR ${FULL_PATH}
 COPY . .
 
-# RUN if [ ! -e $PATH_APP$NAME_APP/package.json ]; \
-#     then npx create-react-app $NAME_APP; \
-#     elif [ ! -e $PATH_APP$NAME_APP/src/App.js ]; \
-#     then npm rebuild; \
-#     fi
-RUN if [ ! -e ${FULL_PATH}/src/App.js ]; then cd ${PATH_APP} && npx create-react-app ${NAME_APP}; fi
+RUN if [ ! -e ${ENTRY_POINT_SERVER} ]; then cd ${PATH_APP} && npx create-react-app ${NAME_APP}; fi
 
 EXPOSE 3000
 

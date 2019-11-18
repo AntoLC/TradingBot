@@ -1,7 +1,7 @@
 .container-chart {
     height: 235px;
     padding-top: 15px;
-    padding-bottom: 65px;
+    padding-bottom: 85px;
     padding-left: 10px;
     position: relative;
     background: #2c2c2c;
@@ -16,18 +16,22 @@
         color: #aaa;
     }
 
+    & .container-dropdownchart{
+        float: right;
+    }
+
     &.sm{
-        padding-top: 12px;
+        padding-top: 6px;
         margin: 5px;
         padding-left: 0;
-        padding-bottom: 20px;
+        padding-bottom: 37px;
         border-radius: 4px;
         background: linear-gradient(160deg, #fff 0%, #fff 100%);
         color: #2c2c2c;
         box-shadow: 2px 2px 20px #8c8c8c;
         border: 1px solid #cacaca;
 
-        & .dropdown.nav-item .block-change-symbol{
+        & .dropdown.nav-item .block-change-data{
             color: #2c2c2c;
             top: 7px;
         }
@@ -35,6 +39,8 @@
         h3{
             padding-left: 10px;
             color: unset;
+            font-size: 15px;
+            margin-top: 14px;
         }
     }
 }

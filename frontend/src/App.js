@@ -34,7 +34,7 @@ const App = ({classMenuLeft, setNewUser, connectionSocket}) => {
       let AppID = document.getElementById('App');
       setPageSmooth(AppID.className.includes("fullscreen") ? '' : 'smooth');
     });
-  }, []);
+  }, [setNewUser, connectionSocket]);
 
   /**
    *  Add class to hide the menu

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # NAME_APP -- ENV = Variable in docker or dockerfile
-echo "Start Entry Point App: $NAME_APP"
+echo "Start Entry Point App: ${NAME_APP}"
 
 if [ ! -e ${ENTRY_POINT_SERVER} ]; then
     # Create folder and go inside
@@ -16,18 +16,18 @@ if [ ! -e ${ENTRY_POINT_SERVER} ]; then
     #     echo "npm rebuild"
     #     npm rebuild;
     # fi
-    echo "npx express-generator-typescript $NAME_APP"
-    npx express-generator-typescript $NAME_APP;
+    echo "npx express-generator-typescript ${NAME_APP}"
+    npx express-generator-typescript ${NAME_APP};
     
     # Copy app
-    echo "cp -r /build-dir/$NAME_APP/* ${FULLPATH}/"
-    cp -r /build-dir/$NAME_APP/* ${FULLPATH}/
+    echo "cp -r /build-dir/${NAME_APP}/* ${FULL_PATH}/"
+    cp -r /build-dir/${NAME_APP}/* ${FULL_PATH}/
 fi
 
 # Goto app and start it
-cd ${FULLPATH}/ && echo "cd ${FULLPATH}/"
+cd ${FULL_PATH}/ && echo "cd ${FULL_PATH}/"
 echo "npm install"
 npm install
-echo "DEBUG=$NAME_APP:* npm run devstart"
+echo "DEBUG=${NAME_APP}:* npm run devstart"
 #DEBUG=$NAME_APP:* npm run devstart
-DEBUG=$NAME_APP:* npm run start-dev
+DEBUG=${NAME_APP}:* npm run start-dev

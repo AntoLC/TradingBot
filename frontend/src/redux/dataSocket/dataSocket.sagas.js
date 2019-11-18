@@ -1,110 +1,93 @@
 import {select, all, call, takeLatest, put, take, fork, cancel} from 'redux-saga/effects';
 import {eventChannel, delay} from 'redux-saga';
+import * as cloneDeep from 'lodash/cloneDeep';
 
 import { selectUser } from '../user/user.selector';
 
 import dataSocketActionTypes from './dataSocket.type';
 import { 
-    setDataSymbolChartTop, 
-    setNewDataSymbolChartTop } 
+    setDataSymbolChart, 
+    setSocketReady} 
     from './dataSocket.action';
 import dataSocketConf from './dataSocket.conf';
 import socketIOClient from "socket.io-client";
 
+let channelChartIO = null;
 let socket = null;
-let channelChartTopIO = null;
+const getSocket = () => {
+    try{
+        if(!socket)
+            socket = socketIOClient(dataSocketConf.ENDPOINT);
+    }catch(error){
+        console.error("Socket Connection Error: Retry 10 secondes", error);
+        setTimeout(() => { getSocket() }, 10000);
+    }
+    return socket;
+};
 
-const subscribeChannel = ({socket, channel}) => eventChannel((emit) => {
-    console.debug('subscribeChannel',{socket, channel});
+const subscribeChannel = ({channel}) => eventChannel((emit) => {
+    console.debug('subscribeChannel',{channel});
     const handler = (data) => { emit(data); };
-    socket.on(channel, handler);
+    getSocket().on(channel, handler);
     return () => {
       //socket.off(channel, handler);
     };
 });
 
-const requestNewSymbol = (user, symbol) => {
-    const data_to_emit = {
-        uid: user,
-        arg: {
-            symbol: symbol,
-            type: "CANDLESTICK"
-        }
-    };
-    socket.emit(dataSocketConf.REQUEST, data_to_emit);
-};
-
-/*function* handleIO(socket) {
-    yield fork(channelNewChartTop, socket);
-    yield fork(channelChartTop, socket);
-}*/
-
-function* channelNewChartTop({socket, channel}) {
-    const channelNewChartTop= yield call(subscribeChannel, {
-        socket: socket, 
+function* channelChart(channel, resetChart) {
+    const callChannelChart = yield call(subscribeChannel, {
+        socket: getSocket(), 
         channel: channel
     });
     while (true) {
-        const channelNewChartTopPayload = yield take(channelNewChartTop);
-        yield put(setNewDataSymbolChartTop(channelNewChartTopPayload));
+        const channelChartPayload = yield take(callChannelChart);
+        yield put(setDataSymbolChart(channelChartPayload, resetChart));
     }
-}
-
-function* channelChartTop({socket, channel}) {
-    const channelChartTop = yield call(subscribeChannel, {
-        socket: socket, 
-        channel: channel
-    });
-    while (true) {
-        const channelChartTopPayload = yield take(channelChartTop);
-        yield put(setDataSymbolChartTop(channelChartTopPayload));
-    }
-}
-
-function* initChartTop(){
-    const user = yield select(selectUser);
-    channelChartTopIO = yield fork(channelChartTop, {
-        socket: socket, 
-        channel: dataSocketConf.ROOM+"=BTCUSDT"
-    });
-    yield fork(channelNewChartTop, {
-        socket: socket, 
-        channel: user+"_top"
-    });
-    
-    requestNewSymbol(user+"_top", "BTCUSDT");
 }
 
 export function* connectionSocketSaga(){
     yield console.log("connectionSocket");
+    yield put(setSocketReady());
     
-    try{
-        yield socket = socketIOClient(dataSocketConf.ENDPOINT);
-        yield initChartTop();
-    }catch(error){
-        yield console.error("Socket Connection Error: Retry 10 secondes", error);
-        yield setTimeout(() => { connectionSocketSaga() }, 10000);
-    }
-}
-
-export function* changeSymbolChartTopSaga({symbol}){
     const user = yield select(selectUser);
-    yield cancel(channelChartTopIO);
-    requestNewSymbol(user+"_top", symbol);
-    channelChartTopIO = yield fork(channelChartTop, {
-        socket: socket, 
-        channel: dataSocketConf.ROOM+"="+symbol
-    });
+    let reset_chart;
+    yield fork(channelChart, user, reset_chart = true);
 }
 
+const requestNewChart = (user, symbol, interval) => {
+    const data_to_emit = {
+        uid: user,
+        arg: {
+            symbol: symbol,
+            interval: interval,
+            type: "CANDLESTICK"
+        }
+    };
+    getSocket().emit(dataSocketConf.REQUEST, data_to_emit);
+};
+
+export function* initChartSaga({symbol, interval}){
+    yield console.log("initChartSaga");
+    const user = yield select(selectUser);
+    
+    // New Chart
+    let room = user;
+    requestNewChart(user, symbol, interval);
+
+    // Listener on new currency
+    room = dataSocketConf.ROOM+'-'+symbol+'-'+interval
+    let reset_chart = false;
+    //yield cancel(channelChartIO);
+    channelChartIO = yield fork(channelChart, room, reset_chart = false);
+}
+
+export function* onChangeInitChart(){
+    yield takeLatest(dataSocketActionTypes.INIT_CHART, initChartSaga);
+}
 export function* onConnectionSocket(){
     yield takeLatest(dataSocketActionTypes.CONNECTION_SOCKET, connectionSocketSaga);
 }
 
-export function* onChangeSymbolChartTop(){
-    yield takeLatest(dataSocketActionTypes.CHANGE_SYMBOL_CHART_TOP, changeSymbolChartTopSaga);
-}
-
 export function* dataSocketSagas(){
-    yield all([call(onConnectionSocket), call(onChangeSymbolChartTop)]);
+    yield all([call(onConnectionSocket), call(onChangeInitChart)]);
 }

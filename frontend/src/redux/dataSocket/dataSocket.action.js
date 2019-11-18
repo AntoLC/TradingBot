@@ -3,16 +3,16 @@ import dataSocketActionTypes from './dataSocket.type';
 export const connectionSocket = () => ({
     type: dataSocketActionTypes.CONNECTION_SOCKET
 });
-
-export const setNewDataSymbolChartTop = (data) => ({
-    type: dataSocketActionTypes.SET_NEW_DATA_SYMBOL_CHART_TOP,
-    response_socket: data.msg
+export const setDataSymbolChart = (data, resetChart) => ({
+    type: dataSocketActionTypes.SET_DATA_SYMBOL_CHART,
+    response_socket: data.msg,
+    resetChart: resetChart
 });
-export const setDataSymbolChartTop = (data) => ({
-    type: dataSocketActionTypes.SET_DATA_SYMBOL_CHART_TOP,
-    response_socket: data.msg
+export const initChart = (symbol, interval) => ({
+    type: dataSocketActionTypes.INIT_CHART,
+    symbol: symbol,
+    interval: interval
 });
-export const changeSymbolChartTop = (symbol) => ({
-    type: dataSocketActionTypes.CHANGE_SYMBOL_CHART_TOP,
-    symbol: symbol
+export const setSocketReady = () => ({
+    type: dataSocketActionTypes.SOCKET_STATE_READY,
 });

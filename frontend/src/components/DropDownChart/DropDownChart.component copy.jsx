@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './DropDownSymbol.style.scss';
 import {
     Dropdown,
@@ -10,7 +10,7 @@ import {changeSymbolChartTop} from '../../redux/dataSocket/dataSocket.action';
 import {connect} from 'react-redux';
 
 
-const DropDownSymbol = ({changeSymbol}) => {
+const DropDownSymbol = ({changeSymbol, setParentSymbol}) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [symbol, setSymbol] = useState('BTCUSDT');
     const symbols = ['BTCUSDT', 'LINKUSDT', 'VETUSDT', 'ETHUSDT'];
@@ -24,6 +24,10 @@ const DropDownSymbol = ({changeSymbol}) => {
             {_symbol}
         </DropdownItem>
     );
+
+    useEffect(() => {
+        setParentSymbol(symbol);
+    },[symbol]);
 
     return (
         <Dropdown  

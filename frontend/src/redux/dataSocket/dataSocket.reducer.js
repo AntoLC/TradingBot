@@ -1,28 +1,35 @@
 import dataSocketActionTypes from './dataSocket.type';
 import { cleaningDataSymbol } from './dataSocket.utils';
-
-
+import dataSocketConf from './dataSocket.conf';
+import * as cloneDeep from 'lodash/cloneDeep';
 const INITIAL_STATE = {
-	data_chart_top:{
+	data_chart:{},
+	is_socket_ready: false
+}
+
+const obInterval= {};
+dataSocketConf.LIST_INTERVAL.forEach(elementInterval => {
+	obInterval[elementInterval] = {
 		close: [],
 		formattedTime: []
-	}
-}
+	};
+});
+dataSocketConf.LIST_SYMBOL.forEach(elementSymbol => {
+	INITIAL_STATE.data_chart[elementSymbol] = cloneDeep(obInterval);
+});
+console.debug("Tutu", INITIAL_STATE.data_chart);
 
 const dataSocketReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case dataSocketActionTypes.SET_NEW_DATA_SYMBOL_CHART_TOP:
+		case dataSocketActionTypes.SET_DATA_SYMBOL_CHART:
 			return {
 				...state,
-				data_chart_top: cleaningDataSymbol({
-					close: [],
-					formattedTime: []
-				}, action.response_socket),
+				data_chart: cleaningDataSymbol(state.data_chart, action.response_socket, action.resetChart),
 			}
-		case dataSocketActionTypes.SET_DATA_SYMBOL_CHART_TOP:
+		case dataSocketActionTypes.SOCKET_STATE_READY:
 			return {
 				...state,
-				data_chart_top: cleaningDataSymbol(state.data_chart_top, action.response_socket),
+				is_socket_ready: true,
 			}
 		default:
 			return state;

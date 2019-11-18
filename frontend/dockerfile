@@ -6,9 +6,10 @@ FROM node:10.16-alpine
 ENV PATH_APP /home/app/
 ENV NAME_APP bot_binance_frontend
 ENV FULL_PATH $PATH_APP$NAME_APP/
+ENV ENTRY_POINT_SERVER ${FULLPATH}/src/App.js
 WORKDIR $FULL_PATH
 COPY . .
 
-RUN if [ ! -e ${FULL_PATH}src/App.js ]; then cd $PATH_APP && npx create-react-app $NAME_APP; fi
+RUN if [ ! -e ${ENTRY_POINT_SERVER} ]; then cd $PATH_APP && npx create-react-app $NAME_APP; fi
 
 EXPOSE 3000

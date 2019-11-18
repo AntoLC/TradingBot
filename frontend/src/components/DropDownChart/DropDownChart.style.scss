@@ -1,15 +1,14 @@
 .dropdown.nav-item{
     list-style-type: none;
+    display: inline-block;
+    margin: 0 6px 10px;
 
-    &.show .block-change-symbol{
+    &.show .block-change-data{
         background: #ffffff22;
     }
-    & .block-change-symbol{
-        position: absolute;
-        right: 10px;
-        top: 20px;
+    & .block-change-data{
         background: #ffffff11;
-        padding: 0px 8px 0 0px;
+        padding: 9px 10px 9px 0px;
         border-radius: 4px;
         border: 1px solid #ffffff33;
         cursor: pointer;
@@ -36,7 +35,6 @@
         background: #1c1c1c;
         border-radius: 3px;
         width: 145px;
-        left: auto!important;
         transition: opacity 0.3s ease-in-out;
     
         &:not(.show){
