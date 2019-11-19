@@ -1,6 +1,5 @@
 import {select, all, call, takeLatest, put, take, fork, cancel} from 'redux-saga/effects';
 import {eventChannel, delay} from 'redux-saga';
-import * as cloneDeep from 'lodash/cloneDeep';
 
 import { selectUser } from '../user/user.selector';
 
@@ -52,6 +51,7 @@ export function* connectionSocketSaga(){
     const user = yield select(selectUser);
     let reset_chart;
     yield fork(channelChart, user, reset_chart = true);
+    yield fork(channelChart, dataSocketConf.ROOM, reset_chart = false);
 }
 
 const requestNewChart = (user, symbol, interval) => {
@@ -75,10 +75,8 @@ export function* initChartSaga({symbol, interval}){
     requestNewChart(user, symbol, interval);
 
     // Listener on new currency
-    room = dataSocketConf.ROOM+'-'+symbol+'-'+interval
-    let reset_chart = false;
-    //yield cancel(channelChartIO);
-    channelChartIO = yield fork(channelChart, room, reset_chart = false);
+    room = symbol+'-'+interval
+    socket.emit('subscribe', room);
 }
 
 export function* onChangeInitChart(){

@@ -15,6 +15,16 @@ export class SocketIO implements IBinanceObserver{
         this.IO.on('connection', (socket: any) => {
             console.log('SocketIO Connected');
 
+            socket.on('subscribe', function(room: string) { 
+                console.log('joining room', room);
+                socket.join(room); 
+            })
+
+            socket.on('unsubscribe', function(room: string) {  
+                console.log('leaving room', room);
+                socket.leave(room); 
+            })
+
             socket.on('request' , (data: {uid:string, arg:any}) => {
                 console.log(data.uid + ' just connected!');
                 //console.log("data emit by "+data.uid, data.arg);
@@ -40,6 +50,7 @@ export class SocketIO implements IBinanceObserver{
     flux_data(symbol: string, interval: string, data: string){
         //console.log("flux_data: "+symbol, data);
         //this.IO.sockets.emit('BinanceIO', {msg: data});
-        this.IO.sockets.emit('BinanceIO-'+symbol+'-'+interval, {msg: data});
+        //this.IO.sockets.emit('BinanceIO-'+symbol+'-'+interval, {msg: data});
+        this.IO.sockets.in(symbol+'-'+interval).emit('BinanceIO', { msg: data })
     }
 }
