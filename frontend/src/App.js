@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 //import ReactDOM from 'react-dom'
 import { Route, Switch, Redirect } from 'react-router-dom';
 import MenuLeft from './components/MenuLeft/MenuLeft.component';
+import CursorFollow from './components/CursorFollow/CursorFollow.component';
 import Chartpage from './page/ChartPage/ChartPage.component';
 import TradePage from './page/TradePage/TradePage.component';
 import './App.scss';
@@ -53,6 +54,7 @@ const App = ({classMenuLeft, setNewUser, connectionSocket}) => {
           <Route exact path='/trade' component={TradePage}/>
         </Switch>
       </div>
+      <CursorFollow/>
     </div>
   );
 }

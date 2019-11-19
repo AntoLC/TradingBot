@@ -24,6 +24,7 @@
 
     & .container-dropdownchart{
         float: right;
+        text-align: right;
     }
 
     &.sm{
@@ -46,7 +47,33 @@
             padding-left: 10px;
             color: unset;
             font-size: 15px;
-            margin-top: 14px;
+            /*margin-top: 14px;*/
+        }
+
+        @media (max-width: 1000px){
+            &{
+                padding-bottom: 64px;
+            }
+            .container-dropdownchart {
+                float: none;
+            }
+        }
+        @media (max-width: 800px){
+            &{
+                padding-bottom: 37px;
+            }
+            .container-dropdownchart {
+                float: right;
+            }
+        }
+    }
+
+    @media (max-width: 400px){
+        &{
+            padding-bottom: 118px;
+        }
+        .container-dropdownchart {
+            float: none;
         }
     }
 }

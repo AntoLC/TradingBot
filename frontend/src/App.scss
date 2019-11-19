@@ -21,4 +21,10 @@
   &.fullscreen .pages{
     margin-left:0px;
   }
+
+  @media (max-width: 1275px){
+    .pages.smooth{
+      width: 100%;
+    }
+  }
 }

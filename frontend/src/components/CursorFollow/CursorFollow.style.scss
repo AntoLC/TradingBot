@@ -1,0 +1,42 @@
+*{
+    @media (min-width: 880px){
+      &{
+        cursor: none!important;
+      }
+    }
+}
+.cursor {
+    z-index: 9000;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.5s, width 0.5s cubic-bezier(0.69, -0.09, 0.14, 1.52), height 0.5s cubic-bezier(0.69, -0.09, 0.14, 1.52);
+    left: var(--x);
+    top: var(--y);
+    border-radius: 50%;
+    width: var(--size, 1.15rem);
+    height: var(--size, 1.15rem);
+    pointer-events: none;
+    background-color: #000;
+
+    background-color: #FFF;
+    mix-blend-mode: difference;
+
+    &.expand{
+        animation: cursorAnim .5s infinite alternate;
+    }
+
+    @media (max-width: 880px){
+        &.expand{
+            animation: none;
+        }
+    }
+}
+
+@keyframes cursorAnim {
+    from {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(2);
+    }
+}

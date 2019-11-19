@@ -206,7 +206,7 @@ const dashboardPanelChart = {
           ticks: {
             padding: 10,
             fontColor: "rgba(255,255,255,0.4)",
-            maxTicksLimit: 21,
+            maxTicksLimit: window.innerWidth < 500 ? 7 : 21,
           }
         }
       ]

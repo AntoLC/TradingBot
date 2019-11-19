@@ -3,4 +3,10 @@
     display: grid;
     top: -33px;
     position: relative;
+
+    @media (max-width: 800px){
+        & {
+            grid-template-columns: none;
+        }
+    }
 }
