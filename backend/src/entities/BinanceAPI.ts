@@ -18,18 +18,14 @@ export class BinanceAPI implements ISocketIOObserver{
         "ETHUSDT"
     ];
     private listInterval: string[] = ['1m', '3m', '5m', '15m', '30m', '1h'];
-    //private listInterval: string[] = ['1m', '3m' ];
-    //   [ 'btcusdt@kline_1m', 'btcusdt@kline_3m' ],
-    //   [ 'linkusdt@kline_1m', 'linkusdt@kline_3m' ],
-    //   [ 'vetusdt@kline_1m', 'vetusdt@kline_3m' ],
-    //   [ 'ethusdt@kline_1m', 'ethusdt@kline_3m' ] ]
+
     constructor(){
         this.binanceObserver = [];
         this.binanceAPI = this.connect();
     }
 
     connect():any{
-        return require('node-binance-api')().options({
+        return require('../binance-api')().options({
             APIKEY: process.env.APIKEY,
             APISECRET: process.env.APISECRET,
             useServerTime: true // If you get timestamp errors, synchronize to server time at startup
@@ -101,17 +97,12 @@ export class BinanceAPI implements ISocketIOObserver{
             const object_interval:any = {};
             const object_symbol:any = {};
             
-            //formated_data.push(symbol);
-            //formated_data[0].push(interval);
-            console.debug(symbol);
-            console.debug(interval);
             data.forEach(element => {
                 array_data.push({
                     timestamp: element[0],
                     close: element[4]
                 });
             });
-
             
             object_interval[interval] = array_data;
             array_interval.push(object_interval);
@@ -119,8 +110,6 @@ export class BinanceAPI implements ISocketIOObserver{
             object_symbol[symbol] = array_interval;
             formated_data.push(object_symbol);
         }
-
-        console.debug(JSON.stringify(formated_data));
 
         return JSON.stringify(formated_data);
     }

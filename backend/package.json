@@ -1,6 +1,7 @@
 {
   "name": "bot_binance_api",
   "version": "0.0.0",
+  "homepage": "D:\\Trading\\code\\nodejs-binance\\backend\\build",
   "scripts": {
     "build": "node ./util/build.js",
     "lint": "tslint --project \"tsconfig.json\"",

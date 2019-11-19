@@ -1,5 +1,7 @@
+
+console.debug(process.env.REACT_APP_PORT_SERVER);
 const dataSocketConf = {
-    ENDPOINT: "localhost:3012/",
+    ENDPOINT: "localhost:"+process.env.REACT_APP_PORT_SERVER+"/",
     ROOM: "BinanceIO",
     REQUEST: "request",
     INIT_SYMBOL: "BTCUSDT",

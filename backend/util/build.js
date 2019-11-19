@@ -6,6 +6,7 @@ try {
     // Remove current build
     fs.removeSync('./dist/');
     // Copy front-end files
+    fs.copySync('./src/binance-api', './dist/binance-api');
     fs.copySync('./src/public', './dist/public');
     fs.copySync('./src/views', './dist/views');
     // Transpile the typescript files

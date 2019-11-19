@@ -9,9 +9,11 @@ WORKDIR ${FULL_PATH}/
 COPY . .
 
 WORKDIR ${PATH_APP}/
-RUN if [ ! -e ${ENTRY_POINT_SERVER} ]; then npx express-generator-typescript $NAME_APP ; fi
+RUN if [ ! -e ${ENTRY_POINT_SERVER} ]; then npx express-generator-typescript ${NAME_APP} ; fi
 WORKDIR ${FULL_PATH}/
 
+RUN apk add --update bash
+RUN apk add --update nano
 RUN npm install
 #RUN if [ -e $PATH_APP$NAME_APP/package.json ]; then npm start ; fi
 

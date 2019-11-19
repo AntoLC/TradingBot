@@ -49,8 +49,6 @@ export class SocketIO implements IBinanceObserver{
 
     flux_data(symbol: string, interval: string, data: string){
         //console.log("flux_data: "+symbol, data);
-        //this.IO.sockets.emit('BinanceIO', {msg: data});
-        //this.IO.sockets.emit('BinanceIO-'+symbol+'-'+interval, {msg: data});
         this.IO.sockets.in(symbol+'-'+interval).emit('BinanceIO', { msg: data })
     }
 }

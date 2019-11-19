@@ -1,0 +1,40 @@
+version: '3'
+    
+services:
+  # FRONTEND
+  node-binance-frontend-prod:
+    container_name: binance-frontend-prod
+    build: 
+      context: ./frontend
+    volumes: 
+      - ./frontend/build:/home/app/bot_binance_frontend/build/
+    ports:
+      - "5000:5000"
+    command: |
+      /bin/bash -c "
+        #yarn --check-files
+        #yarn build
+        yarn global add serve
+        serve -s build
+        /bin/bash || exit 0 "
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_PORT_SERVER=4012
+    depends_on: 
+      - node-binance-backend-prod
+
+  # BACKEND
+  node-binance-backend-prod:
+    container_name: binance-backend-prod
+    build: 
+      context: ./backend
+    ports:
+      - "4012:8081"
+    command: |
+      /bin/bash -c "
+        #yarn --check-files
+        npm run build
+        npm run start
+        /bin/bash || exit 0 "
+    environment:
+      - NODE_ENV=production

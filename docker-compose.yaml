@@ -40,6 +40,7 @@ services:
     entrypoint: "/entrypoint-compose.sh"
     environment:
       - NODE_ENV=development
+      - REACT_APP_PORT_SERVER=3012
       - CHOKIDAR_USEPOLLING=true
     depends_on: 
       - node-binance-backend

@@ -17,7 +17,6 @@ dataSocketConf.LIST_INTERVAL.forEach(elementInterval => {
 dataSocketConf.LIST_SYMBOL.forEach(elementSymbol => {
 	INITIAL_STATE.data_chart[elementSymbol] = cloneDeep(obInterval);
 });
-console.debug("Tutu", INITIAL_STATE.data_chart);
 
 const dataSocketReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {

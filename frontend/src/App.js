@@ -50,8 +50,8 @@ const App = ({classMenuLeft, setNewUser, connectionSocket}) => {
       <MenuLeft />
       <div className={`${pageSmooth} pages`}>
         <Switch>
-          <Route exact path='/' component={Chartpage}/>
-          <Route exact path='/trade' component={TradePage}/>
+          <Route path='trade' component={TradePage}/>
+          <Route path='' component={Chartpage}/>
         </Switch>
       </div>
       <CursorFollow/>
