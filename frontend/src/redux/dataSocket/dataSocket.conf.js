@@ -1,5 +1,5 @@
 
-let endpoint = "https://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_PORT_SERVER+"/";
+let endpoint = "https://"+process.env.REACT_APP_SERVER+"/";
 if(process.env.NODE_ENV === "development")
     endpoint = "http://localhost:"+process.env.REACT_APP_PORT_SERVER+"/";
 
