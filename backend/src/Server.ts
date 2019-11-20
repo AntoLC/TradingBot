@@ -23,6 +23,7 @@ app.use('/api', BaseRouter);
  * configure this to only serve the index file while in
  * production mode.
  */
+
 /*const viewsDir = path.join(__dirname, 'views');
 app.set('views', viewsDir);
 const staticDir = path.join(__dirname, 'public');
@@ -30,6 +31,18 @@ app.use(express.static(staticDir));
 app.get('*', (req: Request, res: Response) => {
     res.sendFile('index.html', {root: viewsDir});
 });*/
+
+const staticDir = path.join(__dirname, 'public');
+app.use(express.static(staticDir));
+
+if(process.env.NODE_ENV === 'production'){
+    const frontend_enpoint = '../../frontend/build';
+    app.use(express.static(path.join(__dirname, frontend_enpoint)));
+  
+    app.get('*', function(req, res){
+      res.sendFile(path.join(__dirname, frontend_enpoint, 'index.html'));
+    });
+}
 
 // Export express instance
 export default app;
