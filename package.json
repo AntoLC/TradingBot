@@ -10,8 +10,8 @@
     "server": "cd backend && yarn start-dev",
     "build": "cd frontend && npm run build",
     "dev": "concurrently --kill-others-on-fail \"yarn client\"", 
-    "start": "cd frontend && node index.html",
-    "heroku-postbuild": "cd frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "start": "cd backend && cross-env ENV_FILE=production node -r ./env -r module-alias/register ./dist/start.js && cd ../frontend && npm run start",
+    "heroku-postbuild": "cd backend && npm install && npm install --only=dev --no-shrinkwrap && npm run build && cd ../frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"
