@@ -10,6 +10,7 @@
     "server": "cd backend && yarn start-dev",
     "build": "cd frontend && npm run build",
     "dev": "concurrently --kill-others-on-fail \"yarn client\"", 
+    "start": "cd frontend && npm run start",
     "heroku-postbuild": "cd frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "devDependencies": {
