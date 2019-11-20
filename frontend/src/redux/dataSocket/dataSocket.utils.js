@@ -29,7 +29,10 @@ export const cleaningDataSymbol = (data_socket, new_data_socket, reset_chart) =>
         });
     });
 
-    console.log('cleaning:FinalElement', data_socket);
+    if(process.env.NODE_ENV === "development"){
+        console.log('cleaning:FinalElement', data_socket);
+    }
+
     return cloneDeep(data_socket);
 }
 
@@ -45,7 +48,7 @@ const get_formated_time = (time) => {
     const dayMonth = date.getDate()+'-'+date.getMonth();
     const hours = date.getHours();
     const minutes = "0" + date.getMinutes();
-    const seconds = "0" + date.getSeconds();
+    //const seconds = "0" + date.getSeconds();
 
     return dayMonth+" "+hours + ':' + minutes.substr(-2);
 }

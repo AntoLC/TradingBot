@@ -19,7 +19,7 @@ const MenuLeft = ({toggleMenuLeft}) => {
   return(
     <div className='menu-left-container'>
       <div className="menu-left-header">
-        <img src={Logo}/>
+        <img alt="Bitcoin Image" src={Logo}/>
         <span className="title">inance Bot</span>
       </div>
       <div className="nav-block">

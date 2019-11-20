@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-//import ReactDOM from 'react-dom'
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 import MenuLeft from './components/MenuLeft/MenuLeft.component';
 import CursorFollow from './components/CursorFollow/CursorFollow.component';
 import Chartpage from './page/ChartPage/ChartPage.component';

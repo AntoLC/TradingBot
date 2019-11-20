@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import DropDownChart from '../DropDownChart/DropDownChart.component';
 import "./ContainerChart.style.scss";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 // Redux
 import {connect} from 'react-redux';
@@ -24,7 +24,7 @@ const ContainerChart = ({size, symbolParent, intervalParent, dataChart, type_cha
     if(isSocketReady)
       initChart(symbol, interval);
     
-  },[symbol, interval, isSocketReady]);
+  },[symbol, interval, isSocketReady, initChart]);
 
   useEffect(() => {
     try { 

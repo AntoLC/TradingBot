@@ -1,5 +1,5 @@
-import {select, all, call, takeLatest, put, take, fork, cancel} from 'redux-saga/effects';
-import {eventChannel, delay} from 'redux-saga';
+import {select, all, call, takeLatest, put, take, fork} from 'redux-saga/effects';
+import {eventChannel} from 'redux-saga';
 
 import { selectUser } from '../user/user.selector';
 
@@ -11,7 +11,6 @@ import {
 import dataSocketConf from './dataSocket.conf';
 import socketIOClient from "socket.io-client";
 
-let channelChartIO = null;
 let socket = null;
 const getSocket = () => {
     try{
@@ -25,7 +24,10 @@ const getSocket = () => {
 };
 
 const subscribeChannel = ({channel}) => eventChannel((emit) => {
-    console.debug('subscribeChannel',{channel});
+    if(process.env.NODE_ENV === "development"){
+        console.debug('subscribeChannel',{channel});
+    }
+    
     const handler = (data) => { emit(data); };
     getSocket().on(channel, handler);
     return () => {
@@ -45,13 +47,13 @@ function* channelChart(channel, resetChart) {
 }
 
 export function* connectionSocketSaga(){
-    yield console.log("connectionSocket");
     yield put(setSocketReady());
     
     const user = yield select(selectUser);
-    let reset_chart;
-    yield fork(channelChart, user, reset_chart = true);
-    yield fork(channelChart, dataSocketConf.ROOM, reset_chart = false);
+    let reset_chart = true;
+    yield fork(channelChart, user, reset_chart);
+    reset_chart = false;
+    yield fork(channelChart, dataSocketConf.ROOM, reset_chart);
 }
 
 const requestNewChart = (user, symbol, interval) => {
@@ -67,7 +69,6 @@ const requestNewChart = (user, symbol, interval) => {
 };
 
 export function* initChartSaga({symbol, interval}){
-    yield console.log("initChartSaga");
     const user = yield select(selectUser);
     
     // New Chart
