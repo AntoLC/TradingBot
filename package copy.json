@@ -1,0 +1,19 @@
+{
+  "name": "binance-chart-bot",
+  "version": "1.0.0",
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.9.0"
+  },
+  "scripts": {
+    "client": "cd frontend && yarn start",
+    "server": "cd backend && yarn start-dev",
+    "build": "cd frontend && npm run build",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "start": "cd backend && cross-env ENV_FILE=production node -r ./env -r module-alias/register ./dist/start.js",
+    "heroku-postbuild": "cd backend && npm install && npm install --only=dev --no-shrinkwrap && npm run build && cd ../frontend && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  }
+}
