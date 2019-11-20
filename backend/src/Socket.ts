@@ -5,7 +5,8 @@ import http from 'http';
 import { logger } from '@shared';
 
 
-const port = Number(process.env.PORT || 3000);
+//const port = Number(process.env.PORT || 3000);
+const port = Number(3012);
 let server = http.createServer(app);
 
 export const SocketInit = () => {
