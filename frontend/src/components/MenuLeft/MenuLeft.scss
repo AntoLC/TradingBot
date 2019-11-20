@@ -71,7 +71,6 @@
         }
     }
 
-    
     .fullscreen & .hide-show-menu{
         right: -43px;
         background: #FF572200;
@@ -87,6 +86,15 @@
         cursor: pointer;
         right: -19px;
         transition: all 1s ease-out;
+    }
+
+    @media (max-width: 700px){
+        &{
+            background-color: rgb(255, 110, 66);
+        }
+        & .hide-show-menu{
+            background-color: rgb(255, 110, 66);
+        }
     }
 }
 
