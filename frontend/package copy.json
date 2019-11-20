@@ -2,6 +2,8 @@
   "name": "bot_binance_frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://binance-chart-bot.herokuapp.com/",
+  "homepage_dev": "http://localhost:4010",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "chart.js": "^2.9.1",
