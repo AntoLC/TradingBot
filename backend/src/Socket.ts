@@ -4,9 +4,9 @@ import { SocketIO } from '@entities';
 import http from 'http';
 import { logger } from '@shared';
 
-
+console.debug(process.env.PORT);
 //const port = Number(process.env.PORT || 3000);
-const port = Number(3012);
+const port = Number(process.env.PORT || 3012);
 let server = http.createServer(app);
 
 export const SocketInit = () => {
@@ -61,5 +61,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
     
-    logger.info('Express server started on port: ' + bind);
+    logger.info('Binance Socket started on port: ' + bind);
 }  

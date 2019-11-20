@@ -32,6 +32,7 @@ app.get('*', (req: Request, res: Response) => {
     res.sendFile('index.html', {root: viewsDir});
 });*/
 
+// For Heroku
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 
