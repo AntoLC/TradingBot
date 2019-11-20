@@ -1,1 +1,1 @@
-web: honcho -f ProcfileHoncho start
+node: cd backend && npm run start
