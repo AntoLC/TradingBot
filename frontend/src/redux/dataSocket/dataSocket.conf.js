@@ -1,6 +1,10 @@
 
+let endpoint = "https://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_PORT_SERVER+"/";
+if(process.env.NODE_ENV === "development")
+    endpoint = "http://localhost:"+process.env.REACT_APP_PORT_SERVER+"/";
+
 const dataSocketConf = {
-    ENDPOINT: "http://localhost:"+process.env.REACT_APP_PORT_SERVER+"/",
+    ENDPOINT: endpoint,
     ROOM: "BinanceIO",
     REQUEST: "request",
     INIT_SYMBOL: "BTCUSDT",
