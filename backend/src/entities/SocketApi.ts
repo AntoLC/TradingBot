@@ -39,7 +39,7 @@ export class SocketIO implements IBinanceObserver{
         });
     }
 
-    registerBinanceObserver(observer: ISocketIOObserver){
+    registerSocketIOObserver(observer: ISocketIOObserver){
         this.socketIOObserver.push(observer);
     }
 

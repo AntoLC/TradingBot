@@ -1,6 +1,8 @@
 import app from '@server';
 import { BinanceAPI } from '@entities';
 import { SocketIO } from '@entities';
+import { BinanceBot } from '@entities';
+
 import http from 'http';
 import { logger } from '@shared';
 
@@ -18,8 +20,9 @@ export const SocketInit = () => {
     socketIO.getIO().attach(server);
     
     const binanceAPI = new BinanceAPI();
-    socketIO.registerBinanceObserver(binanceAPI);
+    socketIO.registerSocketIOObserver(binanceAPI);
     binanceAPI.registerBinanceObserver(socketIO);
+    binanceAPI.registerBinanceObserver(new BinanceBot());
     binanceAPI.startListener();
 }
 
