@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "chart.js": "^2.9.1",
+    "chart.js": "^2.9.4",
     "eslint-loader": "^3.0.2",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.0",
